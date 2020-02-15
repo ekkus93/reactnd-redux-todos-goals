@@ -21,6 +21,10 @@
     </div>
 
     <script type='text/javascript'>
+        function generateId() {
+            return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
+        }
+
         // library code
         function createStore(reducer) {
             // The store should have four parts
@@ -56,10 +60,10 @@
         // App code
         const ADD_GOAL = 'ADD_GOAL'
         const REMOVE_GOAL = 'REMOVE_GOAL'
-        const TOGGLE_GOAL = 'TOGGLE_GOAL'
 
         const ADD_TODO = 'ADD_TODO'
         const REMOVE_TODO = 'REMOVE_TODO'
+        const TOGGLE_TODO = 'TOGGLE_TODO'
 
         function app(state = {}, action) {
             return {
@@ -133,6 +137,7 @@
             console.log("The new state is: .", store.getState())
         })
 
+        /*
         store.dispatch(addTodoAction({
             id: 0,
             name: 'Walk the dog',
@@ -166,6 +171,36 @@
         }))
 
         store.dispatch(removeGoalAction(0))
+        */
+
+        function addTodo() {
+            const input = document.getElementById('todo')
+            const name = input.value
+            input.value = ''
+
+            store.dispatch(addTodoAction({
+                name,
+                complete: false,
+                id: generateId(),
+            }))
+        }
+
+        function addGoal() {
+            const input = document.getElementById('goal')
+            const name = input.value
+            input.value = ''
+
+            store.dispatch(addGoalAction({
+                name,
+                id: generateId(),
+            }))
+        }
+
+        document.getElementById('todoBtn')
+            .addEventListener('click', addTodo)
+
+        document.getElementById('goalBtn')
+            .addEventListener('click', addGoal)
     </script>
 </body>
 
